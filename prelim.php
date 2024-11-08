@@ -9,6 +9,7 @@
     <title>Student Enrollment and Grade Processing System</title>
 </head>
 <body>
+    <br>
     <h3 class="center" >Student Enrollment and Grade Processing System</h3>
 
 <?php
@@ -48,7 +49,9 @@
     }
     ?>
 
+
 <!-- studentform -->
+<?php if (!$studentInfoSubmitted): ?>
     <form method="post">
         <h4>Student Enrollment Form</h4>
         <label for="firstName">First Name</label>
@@ -74,6 +77,7 @@
             <option value="BSIT">BSIT</option>
             <option value="BSHRM">BSHRM</option>
             <option value="BSCRIM">BSCRIM</option>
+            <option value="BSEED">BSEED</option>
         </select>
 
         <label for="email">Email</label>
@@ -81,10 +85,22 @@
 
         <button type="submit" name="submitStudentInfo" class="submit-btn">Submit Student Information</button>
     </form>
+<?php endif; ?>
+
+
 
 <!-- gradeform -->
+<?php if ($studentInfoSubmitted && !$gradesSubmitted): ?>
     <form method="post">
         <h4>Enter Grades for <?php echo htmlspecialchars($firstName . " " . $lastName); ?></h4>
+        
+        <!-- Hidden fields to pass student info -->
+        <input type="hidden" name="firstName" value="<?php echo htmlspecialchars($firstName); ?>">
+        <input type="hidden" name="lastName" value="<?php echo htmlspecialchars($lastName); ?>">
+        <input type="hidden" name="age" value="<?php echo htmlspecialchars($age); ?>">
+        <input type="hidden" name="gender" value="<?php echo htmlspecialchars($gender); ?>">
+        <input type="hidden" name="course" value="<?php echo htmlspecialchars($course); ?>">
+        <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
         
         <label for="prelim">Prelim</label>
         <input type="number" id="prelim" name="prelim" required>
@@ -97,9 +113,11 @@
 
         <button type="submit" name="submitGrades" class="submit-btn" style="background-color: #28a745;">Submit Grades</button>
     </form>
+<?php endif; ?>
 
-
+ 
 <!-- Display Student Details and Grades -->
+<?php if ($gradesSubmitted): ?>
     <div class="student-details">
         <h4>Student Details</h4>
         <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
@@ -120,6 +138,8 @@
             </span>
         </p>
     </div>
+<?php endif; ?>
+
     
 </body>
 </html>
